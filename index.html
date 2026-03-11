@@ -15,7 +15,7 @@
       --purple-pale: #EDE0F7;
       --green: #27AE60;
       --green-dark: #1E8449;
-      --bg: #EBEBEB;
+      --bg: #E8E8EC;
       --bg-white: #FFFFFF;
       --text: #1A1A1A;
       --text-muted: #555555;
@@ -27,9 +27,19 @@
 
     body {
       font-family: 'Space Grotesk', sans-serif;
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(123,47,190,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123,47,190,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
       color: var(--text);
       overflow-x: hidden;
+      animation: pageFadeIn 0.6s ease forwards;
+    }
+
+    @keyframes pageFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     /* ===== NAVBAR ===== */
@@ -37,8 +47,10 @@
       position: sticky;
       top: 0;
       z-index: 900;
-      background: var(--bg-white);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
       box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      border-bottom: 1px solid rgba(123,47,190,0.3);
       padding: 0 2rem;
       height: 64px;
       display: flex;
@@ -120,6 +132,33 @@
     }
 
     .hero-content { position: relative; z-index: 2; }
+
+    .hero-video {
+      display: block;
+      margin: 0 auto 2rem;
+      border-radius: 20px;
+      max-height: 320px;
+      width: auto;
+      max-width: 100%;
+      box-shadow: 0 20px 60px rgba(123,47,190,.6), 0 0 40px rgba(123,47,190,.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
 
     .hero h1 {
       font-size: clamp(2.4rem, 6vw, 4rem);
@@ -258,12 +297,14 @@
 
     .section-label {
       display: inline-block;
-      background: var(--purple-pale);
+      background: rgba(123,47,190,0.1);
+      border: 1px solid rgba(123,47,190,0.35);
       color: var(--purple);
       font-size: .8rem;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       text-transform: uppercase;
+      font-family: 'Space Grotesk', monospace;
       padding: .3rem .9rem;
       border-radius: 50px;
       margin-bottom: 1rem;
@@ -277,7 +318,7 @@
       margin-bottom: 1.2rem;
     }
 
-    .section-title span { color: var(--purple); }
+    .section-title span { color: var(--purple); text-shadow: 0 0 20px rgba(123,47,190,0.35); }
 
     .section-text {
       color: var(--text-muted);
@@ -418,7 +459,8 @@
 
     .product-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(123,47,190,.28);
+      border-color: rgba(123,47,190,0.4);
+      box-shadow: 0 0 0 1px rgba(123,47,190,0.2), 0 12px 40px rgba(123,47,190,0.3);
     }
 
     .product-img {
@@ -460,6 +502,10 @@
     }
 
     .btn-buy:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .btn-buy:hover, .btn-green:hover, .btn-checkout:hover {
+      box-shadow: 0 0 16px rgba(39,174,96,0.5);
+    }
 
     .btn-info {
       background: transparent;
@@ -613,6 +659,12 @@
       text-align: center;
       box-shadow: var(--shadow);
       border: 1px solid rgba(123,47,190,.08);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+
+    .why-card:hover {
+      border-color: rgba(123,47,190,0.4);
+      box-shadow: 0 0 0 1px rgba(123,47,190,0.2), 0 12px 40px rgba(123,47,190,0.3);
     }
 
     .why-card .icon { font-size: 2.4rem; margin-bottom: .8rem; }
@@ -883,6 +935,42 @@
     }
     .carousel-dots span.active { opacity: 1; }
 
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
@@ -940,15 +1028,9 @@
   <span class="scatter-item" style="top:85%;right:25%;animation-delay:.7s">🔬</span>
 
   <div class="hero-content">
-    <div class="device-mock">
-      <div class="device-screen">🐐</div>
-      <div class="device-dpad">
-        <span class="empty"></span><span>▲</span><span class="empty"></span>
-        <span>◀</span><span class="center">●</span><span>▶</span>
-        <span class="empty"></span><span>▼</span><span class="empty"></span>
-      </div>
-      <div class="device-led"></div>
-    </div>
+    <video autoplay loop muted playsinline class="hero-video">
+      <source src="Design sem nome (1).mp4" type="video/mp4">
+    </video>
     <h1><span>CabraHack</span> Store</h1>
     <p>Ferramentas multifuncionais para entusiastas de segurança cibernética. Para fins exclusivamente educativos.</p>
     <a href="#produtos" class="btn-green">🛒 COMPRAR AGORA</a>
@@ -956,10 +1038,10 @@
 </section>
 
 <!-- ===== SEU COMPANHEIRO HACKER ===== -->
-<section id="sobre" style="background: var(--bg-white);">
+<section id="sobre" class="reveal" style="background: var(--bg-white);">
   <div class="container">
     <div class="two-col">
-      <div>
+      <div class="reveal-left">
         <span class="section-label">Sobre o CabraHack</span>
         <h2 class="section-title">Seu companheiro<br/><span>hacker</span></h2>
         <p class="section-text">
@@ -978,16 +1060,16 @@
           <span class="chip">🛡️ Ético</span>
         </div>
       </div>
-      <div class="emoji-placeholder">🐐</div>
+      <div class="emoji-placeholder reveal-right">🐐</div>
     </div>
   </div>
 </section>
 
 <!-- ===== DIAGRAMA TÉCNICO ===== -->
-<section id="devices" class="diagram-section">
+<section id="devices" class="diagram-section reveal">
   <div class="container">
     <div class="two-col reversed">
-      <div>
+      <div class="reveal-right">
         <span class="section-label">Especificações</span>
         <h2 class="section-title">Hardware<br/><span>multifuncional</span></h2>
         <p class="section-text">
@@ -1003,7 +1085,7 @@
           <li>💾 Armazenamento via microSD</li>
         </ul>
       </div>
-      <div style="display:flex;justify-content:center;padding:2rem 0;">
+      <div class="reveal-left" style="display:flex;justify-content:center;padding:2rem 0;">
         <div class="device-annotated">
           <div class="device-big">
             <div class="device-screen">📟</div>
@@ -1025,10 +1107,10 @@
 </section>
 
 <!-- ===== JAMMER SUB-1 GHz ===== -->
-<section class="jammer-section">
+<section class="jammer-section reveal">
   <div class="container">
     <div class="two-col">
-      <div>
+      <div class="reveal-left">
         <span class="section-label">Destaque</span>
         <h2 class="jammer-title">Jammer<br/><span>Sub-1 GHz</span></h2>
         <p class="section-text">
@@ -1037,30 +1119,30 @@
           sensores IoT e sistemas de acesso.
         </p>
         <div class="feature-cards">
-          <div class="feature-card">
+          <div class="feature-card reveal reveal-delay-1">
             <div class="icon">🔌</div>
             <h4>Tomadas e lâmpadas</h4>
             <p>Análise de protocolos de automação residencial em 433/315 MHz.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-card reveal reveal-delay-2">
             <div class="icon">🌡️</div>
             <h4>Sensores IoT</h4>
             <p>Capture e analise transmissões de sensores de temperatura, presença e umidade.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-card reveal reveal-delay-3">
             <div class="icon">🚗</div>
             <h4>Portões e cancelas</h4>
             <p>Estudo de sistemas de controle remoto para fins de auditoria de segurança.</p>
           </div>
         </div>
       </div>
-      <div class="emoji-placeholder" style="font-size:8rem;">📻</div>
+      <div class="emoji-placeholder reveal-right" style="font-size:8rem;">📻</div>
     </div>
   </div>
 </section>
 
 <!-- ===== PRODUTOS ===== -->
-<section id="produtos" class="products-section">
+<section id="produtos" class="products-section reveal">
   <div class="container">
     <div class="products-header">
       <span class="section-label">Nossa Loja</span>
@@ -1072,7 +1154,7 @@
     <div class="product-grid">
 
       <!-- WiFi Marauder — carousel com fotos reais -->
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-1">
         <div class="carousel-wrap" id="carousel-marauder">
           <img src="marauder-1.jpeg" alt="WiFi Marauder" class="active">
           <img src="marauder-2.jpeg" alt="WiFi Marauder">
@@ -1096,7 +1178,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-2">
         <div class="product-img">💻</div>
         <div class="product-info">
           <h3>BadUSB</h3>
@@ -1111,7 +1193,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-3">
         <div class="product-img">📻</div>
         <div class="product-info">
           <h3>Jammer RF</h3>
@@ -1126,7 +1208,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-1">
         <div class="product-img">🐬</div>
         <div class="product-info">
           <h3>Flipper Zero Clone</h3>
@@ -1141,7 +1223,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-2">
         <div class="product-img">⌨️</div>
         <div class="product-info">
           <h3>Rubber Ducky</h3>
@@ -1156,7 +1238,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-3">
         <div class="product-img">🔧</div>
         <div class="product-info">
           <h3>ESP32 Dev Kit</h3>
@@ -1176,23 +1258,23 @@
 </section>
 
 <!-- ===== POR QUE ESCOLHER ===== -->
-<section class="why-section">
+<section class="why-section reveal">
   <div class="container">
     <h2 class="section-title" style="text-align:center;margin-bottom:2.5rem;">
       Por que nos <span>escolher?</span>
     </h2>
     <div class="why-grid">
-      <div class="why-card">
+      <div class="why-card reveal reveal-delay-1">
         <div class="icon">🎓</div>
         <h3>Fins Educativos</h3>
         <p>Todos os produtos são destinados exclusivamente ao aprendizado de segurança cibernética em ambientes autorizados.</p>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal reveal-delay-2">
         <div class="icon">🔓</div>
         <h3>Código Aberto</h3>
         <p>Firmwares open-source, comunidade ativa, documentação completa. Modifique e aprenda como cada ferramenta funciona.</p>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal reveal-delay-3">
         <div class="icon">🌐</div>
         <h3>Comunidade Ativa</h3>
         <p>Faça parte de uma comunidade apaixonada por segurança. Discord, fóruns e tutoriais disponíveis 24/7.</p>
@@ -1519,6 +1601,17 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
   });
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        revealObserver.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObserver.observe(el));
 </script>
 
 </body>
