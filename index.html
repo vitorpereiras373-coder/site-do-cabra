@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CabraHack Store – Ferramentas de Pentest</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -734,9 +734,329 @@
       .hero { padding: 3rem 1rem; }
       section { padding: 3rem 1rem; }
     }
+
+    /* ===== 8-BIT FONTS ===== */
+    h1, h2, .nav-logo, .section-title, .jammer-title, .products-title {
+      font-family: 'Press Start 2P', monospace;
+      line-height: 1.4;
+    }
+    .hero h1 {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      letter-spacing: 0;
+    }
+    .section-title {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      letter-spacing: 0;
+    }
+    .jammer-title {
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      letter-spacing: 0;
+    }
+    .hero p, .section-text, .feature-card p, .why-card p, .notice p, .footer-brand p {
+      font-family: 'VT323', monospace;
+      font-size: 1.25rem;
+      line-height: 1.55;
+    }
+    .hero p { font-size: 1.35rem; }
+
+    /* ===== PIXEL CARDS ===== */
+    .product-card {
+      border-radius: 0;
+      border: 3px solid var(--purple);
+      box-shadow: 4px 4px 0 var(--purple-dark);
+      transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.15s;
+      opacity: 0;
+      transform: scale(0.9);
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translate(-2px, -2px) scale(1);
+      box-shadow: 6px 6px 0 var(--purple-dark);
+    }
+    .product-card.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ===== 8-BIT BUTTONS ===== */
+    .btn-buy, .btn-green, .btn-checkout, .cart-btn {
+      border-radius: 0;
+      border: 2px solid rgba(0,0,0,0.3);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    }
+    .btn-buy:hover, .btn-green:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    }
+    .btn-buy:active, .btn-green:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    /* ===== HERO DOT GRID ===== */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(155,89,182,0.3) 1px, transparent 1px);
+      background-size: 24px 24px;
+      z-index: 1;
+    }
+
+    /* ===== SCANLINES ON HERO ===== */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== GLITCH ANIMATION ON LOGO ===== */
+    @keyframes glitch {
+      0%, 90%, 100% { text-shadow: none; }
+      92% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+      94% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+      96% { text-shadow: none; }
+    }
+    .nav-logo { animation: glitch 4s infinite; }
+
+    /* ===== BLINKING CURSOR ===== */
+    @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .cursor { display: inline-block; animation: blink-cursor 1s infinite; }
+
+    /* ===== SECTION ANIMATIONS ===== */
+    .animate-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .animate-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== DEVICE MOCK PIXEL STYLE ===== */
+    .device-mock {
+      border-radius: 4px;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+    .device-screen { border-radius: 2px; }
+
+    /* ===== NEON TEXT SHADOW ON SOME TITLES ===== */
+    .hero h1 { text-shadow: 0 0 12px rgba(155,89,182,0.8); }
+    .jammer-title { text-shadow: 0 0 10px rgba(155,89,182,0.6); }
+
+    /* ===== PRODUCT CARD PIXEL IMG ===== */
+    .product-img { border-radius: 0; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: var(--bg-white);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 3px solid var(--purple);
+      box-shadow: 6px 6px 0 var(--purple-dark);
+      border-radius: 0;
+      animation: modalIn 0.25s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .modal-hero {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      border: 3px solid var(--purple-dark);
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.5rem 0;
+      gap: 1rem;
+    }
+    .modal-title-group { flex: 1; }
+    .modal-title-group h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: .85rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .modal-badge {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .25rem .7rem;
+      margin-top: .5rem;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.5px;
+    }
+    .modal-close {
+      background: none;
+      border: 2px solid var(--purple);
+      color: var(--purple);
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s, color .15s;
+    }
+    .modal-close:hover { background: var(--purple); color: #fff; }
+    .modal-price {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: var(--purple);
+      font-weight: 800;
+      padding: 1rem 1.5rem 0;
+    }
+    .modal-desc {
+      font-family: 'VT323', monospace;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding: .8rem 1.5rem 0;
+    }
+    .modal-specs-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: .7rem;
+      color: var(--text);
+      padding: 1rem 1.5rem .5rem;
+      border-top: 2px solid var(--purple-pale);
+      margin-top: .8rem;
+    }
+    .modal-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .35rem .8rem;
+      padding: 0 1.5rem;
+    }
+    .modal-spec-item {
+      font-family: 'VT323', monospace;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: .3rem;
+    }
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      padding: 1rem 1.5rem;
+    }
+    .modal-tag {
+      background: var(--purple-pale);
+      color: var(--purple-dark);
+      font-size: .75rem;
+      font-weight: 700;
+      padding: .3rem .8rem;
+      border: 1px solid var(--purple);
+      font-family: 'Press Start 2P', monospace;
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: 2px solid var(--purple-pale);
+    }
+    .modal-add-btn {
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 1rem;
+      border: 2px solid rgba(0,0,0,0.3);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: background .2s, transform .1s, box-shadow .1s;
+    }
+    .modal-add-btn:hover { background: var(--green-dark); transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(0,0,0,0.3); }
+    .modal-add-btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 rgba(0,0,0,0.3); }
+
+    /* ===== BOOT SCREEN ===== */
+    .boot-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', monospace;
+      color: #00ff41;
+      font-size: .75rem;
+      line-height: 2.2;
+      text-align: left;
+      padding: 2rem;
+      transition: opacity 0.5s;
+    }
+    .boot-screen pre { white-space: pre-wrap; word-break: break-all; max-width: 600px; }
+    .boot-screen.fade-out { opacity: 0; pointer-events: none; }
+    .boot-cursor { display: inline-block; animation: blink-cursor 0.6s infinite; }
   </style>
 </head>
 <body>
+
+<!-- ===== BOOT SCREEN ===== -->
+<div class="boot-screen" id="boot-screen">
+  <pre id="boot-text"></pre>
+</div>
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-hero" id="modal-emoji"></div>
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <h2 id="modal-name"></h2>
+        <span class="modal-badge" id="modal-badge"></span>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-price" id="modal-price"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-specs-title">// ESPECIFICAÇÕES TÉCNICAS</div>
+    <div class="modal-specs" id="modal-specs"></div>
+    <div class="modal-tags" id="modal-tags"></div>
+    <div class="modal-footer">
+      <button class="modal-add-btn" id="modal-add-btn">🛒 ADICIONAR AO CARRINHO</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar">
@@ -785,14 +1105,14 @@
       </div>
       <div class="device-led"></div>
     </div>
-    <h1><span>CabraHack</span> Store</h1>
-    <p>Ferramentas multifuncionais para entusiastas de segurança cibernética. Para fins exclusivamente educativos.</p>
+    <h1 id="hero-title"><span>CabraHack</span> Store</h1>
+    <p id="hero-subtitle">Ferramentas multifuncionais para entusiastas de segurança cibernética. Para fins exclusivamente educativos.<span class="cursor">|</span></p>
     <a href="#produtos" class="btn-green">🛒 COMPRAR AGORA</a>
   </div>
 </section>
 
 <!-- ===== SEU COMPANHEIRO HACKER ===== -->
-<section id="sobre" style="background: var(--bg-white);">
+<section id="sobre" class="animate-section" style="background: var(--bg-white);">
   <div class="container">
     <div class="two-col">
       <div>
@@ -820,7 +1140,7 @@
 </section>
 
 <!-- ===== DIAGRAMA TÉCNICO ===== -->
-<section id="devices" class="diagram-section">
+<section id="devices" class="diagram-section animate-section">
   <div class="container">
     <div class="two-col reversed">
       <div>
@@ -867,7 +1187,7 @@
 </section>
 
 <!-- ===== JAMMER SUB-1 GHz ===== -->
-<section class="jammer-section">
+<section class="jammer-section animate-section">
   <div class="container">
     <div class="two-col">
       <div>
@@ -902,7 +1222,7 @@
 </section>
 
 <!-- ===== PRODUTOS ===== -->
-<section id="produtos" class="products-section">
+<section id="produtos" class="products-section animate-section">
   <div class="container">
     <div class="products-header">
       <span class="section-label">Nossa Loja</span>
@@ -913,74 +1233,74 @@
     </div>
     <div class="product-grid">
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('marauder')">
         <div class="product-img">📶</div>
         <div class="product-info">
           <h3>WiFi Marauder</h3>
           <p>Framework de auditoria Wi-Fi para análise de redes 802.11. Excelente para pesquisa de segurança wireless.</p>
           <div class="product-footer">
             <span class="product-price">R$ 189,90</span>
-            <button class="btn-buy" onclick="addToCart('WiFi Marauder', '📶', 189.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('WiFi Marauder', '📶', 189.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('badusb')">
         <div class="product-img">💻</div>
         <div class="product-info">
           <h3>BadUSB</h3>
           <p>Dispositivo de injeção de teclado programável. Utilizado em testes de engenharia social e conscientização.</p>
           <div class="product-footer">
             <span class="product-price">R$ 79,90</span>
-            <button class="btn-buy" onclick="addToCart('BadUSB', '💻', 79.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('BadUSB', '💻', 79.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('jammer')">
         <div class="product-img">📻</div>
         <div class="product-info">
           <h3>Jammer RF</h3>
           <p>Analisador de frequências de rádio para estudo de protocolos Sub-GHz em laboratório controlado.</p>
           <div class="product-footer">
             <span class="product-price">R$ 249,90</span>
-            <button class="btn-buy" onclick="addToCart('Jammer RF', '📻', 249.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('Jammer RF', '📻', 249.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('flipper')">
         <div class="product-img">🐬</div>
         <div class="product-info">
           <h3>Flipper Zero Clone</h3>
           <p>Multi-tool para pentest físico: Sub-GHz, NFC, RFID, IR, BadUSB e muito mais em um único device.</p>
           <div class="product-footer">
             <span class="product-price">R$ 599,90</span>
-            <button class="btn-buy" onclick="addToCart('Flipper Zero Clone', '🐬', 599.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('Flipper Zero Clone', '🐬', 599.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('ducky')">
         <div class="product-img">⌨️</div>
         <div class="product-info">
           <h3>Rubber Ducky</h3>
           <p>O clássico pen drive com injeção de keystroke para simulações de ataque e treinamentos de segurança.</p>
           <div class="product-footer">
             <span class="product-price">R$ 149,90</span>
-            <button class="btn-buy" onclick="addToCart('Rubber Ducky', '⌨️', 149.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('Rubber Ducky', '⌨️', 149.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" onclick="openModal('esp32')">
         <div class="product-img">🔧</div>
         <div class="product-info">
           <h3>ESP32 Dev Kit</h3>
           <p>Microcontrolador com Wi-Fi e Bluetooth integrados. Base para projetos de IoT hacking e deauth attacks.</p>
           <div class="product-footer">
             <span class="product-price">R$ 59,90</span>
-            <button class="btn-buy" onclick="addToCart('ESP32 Dev Kit', '🔧', 59.90)">+ Carrinho</button>
+            <button class="btn-buy" onclick="event.stopPropagation();addToCart('ESP32 Dev Kit', '🔧', 59.90)">+ Carrinho</button>
           </div>
         </div>
       </div>
@@ -990,7 +1310,7 @@
 </section>
 
 <!-- ===== POR QUE ESCOLHER ===== -->
-<section class="why-section">
+<section class="why-section animate-section">
   <div class="container">
     <h2 class="section-title" style="text-align:center;margin-bottom:2.5rem;">
       Por que nos <span>escolher?</span>
@@ -1109,6 +1429,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  /* ===== CART ===== */
   var cart = [];
 
   function addToCart(name, icon, price) {
@@ -1188,6 +1509,242 @@
       toast.classList.remove('show');
     }, 2800);
   }
+
+  /* ===== PRODUCTS DATA ===== */
+  var products = {
+    marauder: {
+      name: 'WiFi Marauder ESP32',
+      price: 'R$ 189,90',
+      rawPrice: 189.90,
+      emoji: '📶',
+      badge: 'MAIS VENDIDO',
+      desc: 'O WiFi Marauder é um firmware para ESP32 que transforma o dispositivo em uma poderosa ferramenta de auditoria de redes WiFi. Permite realizar scans de redes 802.11, captura de handshakes WPA/WPA2, ataques de deautenticação para testes de penetração e análise de tráfego de rede em ambientes controlados.',
+      specs: ['Chip: ESP32 WROOM-32', 'Frequência: 2.4 GHz 802.11 b/g/n', 'Antena: PCB integrada', 'USB: Micro-USB para programação', 'Firmware: Open Source (GitHub)', 'Compatível: Windows/Linux/macOS'],
+      tags: ['WiFi', 'ESP32', 'Open Source', '802.11'],
+      cartName: 'WiFi Marauder'
+    },
+    badusb: {
+      name: 'BadUSB HID Injector',
+      price: 'R$ 79,90',
+      rawPrice: 79.90,
+      emoji: '💻',
+      badge: 'PARA INICIANTES',
+      desc: 'O BadUSB simula um teclado HID (Human Interface Device) para injetar sequências de teclas automaticamente. Utilizado em treinamentos de conscientização em segurança, testes de políticas de bloqueio de tela e simulações de ataques de engenharia social em ambientes autorizados.',
+      specs: ['Interface: USB-A', 'Protocolo: HID Keyboard', 'Linguagem: DuckyScript', 'Storage: 1MB Flash', 'Compatível: Windows/Linux/macOS/Android', 'Programação: Via USB + editor web'],
+      tags: ['HID', 'USB', 'DuckyScript', 'Social Engineering'],
+      cartName: 'BadUSB'
+    },
+    jammer: {
+      name: 'Jammer RF Sub-GHz',
+      price: 'R$ 249,90',
+      rawPrice: 249.90,
+      emoji: '📻',
+      badge: 'USO EM LAB',
+      desc: 'Analisador e transceptor de radiofrequência sub-1GHz para estudo de protocolos sem fio. Compatível com frequências de 300-928 MHz, permite capturar, analisar e retransmitir sinais de controles remotos, sensores IoT e sistemas de automação residencial em ambientes de laboratório.',
+      specs: ['Chip: CC1101', 'Frequência: 300-928 MHz', 'Alcance: até 50 metros', 'Protocolos: OOK, FSK, ASK', 'Antena: SMA removível', 'Interface: SPI/USB'],
+      tags: ['Sub-GHz', 'RF', 'CC1101', 'IoT'],
+      cartName: 'Jammer RF'
+    },
+    flipper: {
+      name: 'Flipper Zero Clone - Multi-Tool',
+      price: 'R$ 599,90',
+      rawPrice: 599.90,
+      emoji: '🐬',
+      badge: 'MAIS COMPLETO',
+      desc: 'Clone funcional do famoso Flipper Zero — o canivete suíço do pentester físico. Combina Sub-GHz, NFC, RFID 125kHz, Infravermelho, BadUSB, iButton e GPIO em um único dispositivo portátil com tela LCD, D-pad e bateria recarregável. Compatível com o firmware original e da comunidade.',
+      specs: ['Sub-GHz: 300-928 MHz (CC1101)', 'NFC: ISO14443A/B, ISO15693', 'RFID: 125kHz (EM4100, HID)', 'IR: 38kHz transmissor/receptor', 'Tela: LCD 128x64 monocromático', 'Bateria: Li-Po 2000mAh'],
+      tags: ['Sub-GHz', 'NFC', 'RFID', 'IR', 'BadUSB', 'GPIO'],
+      cartName: 'Flipper Zero Clone'
+    },
+    ducky: {
+      name: 'USB Rubber Ducky v2',
+      price: 'R$ 149,90',
+      rawPrice: 149.90,
+      emoji: '⌨️',
+      badge: 'CLÁSSICO',
+      desc: 'O lendário USB Rubber Ducky da Hak5 — a ferramenta de injeção de keystroke mais famosa da comunidade de segurança. Parece um pen drive comum, mas executa payloads DuckyScript em segundos. Ideal para demonstrações de segurança, CTFs e treinamentos de red team.',
+      specs: ['Interface: USB-A', 'Velocidade: keystroke injection <1s', 'Linguagem: DuckyScript 3.0', 'Storage: microSD', 'LED: indicador de status', 'Compatível: qualquer dispositivo USB HID'],
+      tags: ['HID', 'Keystroke', 'Hak5', 'Red Team'],
+      cartName: 'Rubber Ducky'
+    },
+    esp32: {
+      name: 'ESP32 Development Kit',
+      price: 'R$ 59,90',
+      rawPrice: 59.90,
+      emoji: '🔧',
+      badge: 'PARA MAKERS',
+      desc: 'O ESP32 é o microcontrolador favorito dos hackers de hardware. Com WiFi e Bluetooth integrados, GPIOs versáteis e ampla documentação, é a base para projetos de IoT hacking, redes de sensores, ataques deauth, portais captivos falsos e muito mais. Ótimo ponto de entrada para o mundo do hardware hacking.',
+      specs: ['CPU: Xtensa LX6 240MHz dual-core', 'RAM: 520KB SRAM', 'Flash: 4MB', 'WiFi: 802.11 b/g/n 2.4GHz', 'Bluetooth: BT 4.2 + BLE', 'GPIO: 34 pinos programáveis'],
+      tags: ['WiFi', 'Bluetooth', 'IoT', 'Arduino', 'MicroPython'],
+      cartName: 'ESP32 Dev Kit'
+    }
+  };
+
+  var currentProductId = null;
+
+  function openModal(productId) {
+    var p = products[productId];
+    if (!p) return;
+    currentProductId = productId;
+
+    document.getElementById('modal-emoji').textContent = p.emoji;
+    document.getElementById('modal-name').textContent = p.name;
+    document.getElementById('modal-badge').textContent = p.badge;
+    document.getElementById('modal-price').textContent = p.price;
+    document.getElementById('modal-desc').textContent = p.desc;
+
+    var specsHtml = '';
+    for (var i = 0; i < p.specs.length; i++) {
+      specsHtml += '<div class="modal-spec-item"><span>🔹</span><span>' + p.specs[i] + '</span></div>';
+    }
+    document.getElementById('modal-specs').innerHTML = specsHtml;
+
+    var tagsHtml = '';
+    for (var j = 0; j < p.tags.length; j++) {
+      tagsHtml += '<span class="modal-tag">' + p.tags[j] + '</span>';
+    }
+    document.getElementById('modal-tags').innerHTML = tagsHtml;
+
+    var addBtn = document.getElementById('modal-add-btn');
+    addBtn.onclick = function() {
+      addToCart(p.cartName, p.emoji, p.rawPrice);
+      closeModal();
+    };
+
+    document.getElementById('modal-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+    currentProductId = null;
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) {
+      closeModal();
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ===== BOOT SCREEN ===== */
+  var bootLines = [
+    'CABRAHACK OS v1.0',
+    '> Initializing hardware...',
+    '> Loading WiFi modules... OK',
+    '> Loading RF subsystem... OK',
+    '> Loading BadUSB drivers... OK',
+    '> Mounting filesystem... OK',
+    '> Starting CabraHack Store...',
+    '',
+    'SYSTEM READY. WELCOME, HACKER.'
+  ];
+
+  var BOOT_TYPING_SPEED = 28;
+  var BOOT_LINE_DELAY_SHORT = 80;
+  var BOOT_LINE_DELAY_LONG = 120;
+
+  function runBootScreen() {
+    var bootEl = document.getElementById('boot-screen');
+    var textEl = document.getElementById('boot-text');
+    var lineIndex = 0;
+    var charIndex = 0;
+    var output = '';
+
+    function typeChar() {
+      if (lineIndex >= bootLines.length) {
+        setTimeout(function() {
+          bootEl.classList.add('fade-out');
+          setTimeout(function() { bootEl.style.display = 'none'; }, 500);
+        }, 400);
+        return;
+      }
+
+      var line = bootLines[lineIndex];
+      if (charIndex < line.length) {
+        output += line[charIndex];
+        textEl.textContent = output + '_';
+        charIndex++;
+        setTimeout(typeChar, BOOT_TYPING_SPEED);
+      } else {
+        output += '\n';
+        textEl.textContent = output + '_';
+        lineIndex++;
+        charIndex = 0;
+        setTimeout(typeChar, line === '' ? BOOT_LINE_DELAY_SHORT : BOOT_LINE_DELAY_LONG);
+      }
+    }
+
+    typeChar();
+  }
+
+  runBootScreen();
+
+  /* ===== INTERSECTION OBSERVER ===== */
+  var sectionObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.animate-section').forEach(function(el) {
+    sectionObserver.observe(el);
+  });
+
+  var cardObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  var cards = document.querySelectorAll('.product-card');
+  cards.forEach(function(card, i) {
+    card.style.transitionDelay = (i * 0.1) + 's';
+    cardObserver.observe(card);
+  });
+
+  /* ===== TYPING ANIMATION FOR HERO H1 ===== */
+  (function() {
+    var HERO_TYPING_SPEED = 80;
+    var bootScreen = document.getElementById('boot-screen');
+    var heroTitle = document.getElementById('hero-title');
+    var fullText = 'CabraHack Store';
+
+    heroTitle.textContent = '';
+
+    function startTyping() {
+      var i = 0;
+      function type() {
+        if (i <= fullText.length) {
+          if (i < 9) {
+            heroTitle.innerHTML = '<span>' + fullText.substring(0, Math.min(i, 9)) + '</span>' + fullText.substring(9, i);
+          } else {
+            heroTitle.innerHTML = '<span>CabraHack</span>' + fullText.substring(9, i);
+          }
+          i++;
+          setTimeout(type, HERO_TYPING_SPEED);
+        }
+      }
+      type();
+    }
+
+    var checkBoot = setInterval(function() {
+      if (bootScreen.style.display === 'none') {
+        clearInterval(checkBoot);
+        setTimeout(startTyping, 300);
+      }
+    }, 100);
+  })();
 </script>
 </body>
 </html>
