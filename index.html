@@ -472,6 +472,8 @@
       font-size: 4rem;
     }
 
+    .product-img img { width: 110px; height: 110px; object-fit: contain; }
+
     .product-info { padding: 1.2rem; }
     .product-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: .3rem; }
     .product-info p { font-size: .82rem; color: var(--text-muted); margin-bottom: .8rem; line-height: 1.5; }
@@ -1209,15 +1211,15 @@
       </div>
 
       <div class="product-card reveal reveal-delay-1">
-        <div class="product-img">🐬</div>
+        <div class="product-img"><img src="Gemini_Generated_Image_9hu44e9hu44e9hu4.png" alt="Goat Zero"></div>
         <div class="product-info">
-          <h3>Flipper Zero Clone</h3>
+          <h3>Goat Zero</h3>
           <p>Multi-tool para pentest físico: Sub-GHz, NFC, RFID, IR, BadUSB e muito mais em um único device.</p>
           <div class="product-footer">
             <span class="product-price">R$ 599,90</span>
             <div class="product-actions">
               <button class="btn-info" onclick="openModal('flipper')">ℹ️ Info</button>
-              <button class="btn-buy" onclick="addToCart('Flipper Zero Clone', '🐬', 599.90)">+ Carrinho</button>
+              <button class="btn-buy" onclick="addToCart('Goat Zero', '🐐', 599.90)">+ Carrinho</button>
             </div>
           </div>
         </div>
@@ -1316,7 +1318,7 @@
         <li><a href="#produtos">WiFi Marauder</a></li>
         <li><a href="#produtos">BadUSB</a></li>
         <li><a href="#produtos">Jammer RF</a></li>
-        <li><a href="#produtos">Flipper Zero Clone</a></li>
+        <li><a href="#produtos">Goat Zero</a></li>
         <li><a href="#produtos">Rubber Ducky</a></li>
         <li><a href="#produtos">ESP32 Dev Kit</a></li>
       </ul>
@@ -1514,8 +1516,8 @@
       cartIcon: '📻'
     },
     flipper: {
-      name: 'Flipper Zero Clone',
-      icon: '🐬',
+      name: 'Goat Zero',
+      icon: '🐐',
       imgs: [],
       desc: 'Multi-tool para pentest físico: Sub-GHz, NFC, RFID, IR, BadUSB e muito mais em um único device.',
       specs: [
@@ -1526,7 +1528,7 @@
         'BadUSB, iButton e GPIO integrados'
       ],
       price: 599.90,
-      cartIcon: '🐬'
+      cartIcon: '🐐'
     },
     ducky: {
       name: 'Rubber Ducky',
